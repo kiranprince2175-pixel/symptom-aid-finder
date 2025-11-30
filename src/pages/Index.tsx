@@ -1,13 +1,27 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import Header from "@/components/Header";
+import HeroSection from "@/components/HeroSection";
+import SymptomChecker from "@/components/SymptomChecker";
+import Footer from "@/components/Footer";
+import { Helmet } from "react-helmet";
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <>
+      <Helmet>
+        <title>MediHelp - Symptom Checker & Medication Guide</title>
+        <meta name="description" content="Get instant health recommendations based on your symptoms. Find medication suggestions, home remedies, and know when to seek professional care." />
+      </Helmet>
+      
+      <div className="min-h-screen flex flex-col bg-background">
+        <Header />
+        <main className="flex-1">
+          <HeroSection />
+          <SymptomChecker />
+          <div className="h-16" />
+        </main>
+        <Footer />
       </div>
-    </div>
+    </>
   );
 };
 
