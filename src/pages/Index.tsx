@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import SymptomChecker from "@/components/SymptomChecker";
 import Footer from "@/components/Footer";
+import AIChatbot from "@/components/AIChatbot";
 import { Helmet } from "react-helmet";
 
 const Index = () => {
@@ -20,6 +21,7 @@ const Index = () => {
           <div className="h-16" />
         </main>
         <Footer />
+        <AIChatbot />
       </div>
     </>
   );
