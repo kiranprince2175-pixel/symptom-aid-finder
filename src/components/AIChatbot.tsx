@@ -128,79 +128,83 @@ export default function AIChatbot() {
   return (
     <>
       {/* Chat Toggle Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={cn(
-          "fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full shadow-elegant flex items-center justify-center transition-all duration-300 hover:scale-110",
-          isOpen
-            ? "bg-destructive text-destructive-foreground"
-            : "bg-gradient-primary text-primary-foreground"
-        )}
-      >
-        {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
-      </button>
+      {!isOpen && (
+        <button
+          onClick={() => setIsOpen(true)}
+          className="fixed bottom-6 right-6 z-50 h-16 w-16 rounded-full bg-slate-800 text-white shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-slate-700"
+        >
+          <MessageCircle className="h-7 w-7" />
+        </button>
+      )}
 
-      {/* Chat Window */}
+      {/* Fullscreen Chat Window */}
       <div
         className={cn(
-          "fixed bottom-24 right-6 z-50 w-[380px] max-w-[calc(100vw-48px)] bg-card border border-border rounded-2xl shadow-elegant overflow-hidden transition-all duration-300 flex flex-col",
+          "fixed inset-0 z-50 bg-slate-900 flex flex-col transition-all duration-300",
           isOpen
-            ? "opacity-100 translate-y-0 pointer-events-auto"
-            : "opacity-0 translate-y-4 pointer-events-none"
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
         )}
-        style={{ height: "500px", maxHeight: "calc(100vh - 150px)" }}
       >
         {/* Header */}
-        <div className="bg-gradient-primary px-4 py-3 flex items-center gap-3">
-          <div className="h-10 w-10 rounded-full bg-primary-foreground/20 flex items-center justify-center">
-            <Bot className="h-5 w-5 text-primary-foreground" />
+        <div className="bg-slate-800 px-6 py-4 flex items-center justify-between border-b border-slate-700">
+          <div className="flex items-center gap-4">
+            <div className="h-12 w-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
+              <Bot className="h-6 w-6 text-emerald-400" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-white text-lg">MediHelp AI</h3>
+              <p className="text-sm text-slate-400">Ask about your symptoms</p>
+            </div>
           </div>
-          <div>
-            <h3 className="font-semibold text-primary-foreground">MediHelp AI</h3>
-            <p className="text-xs text-primary-foreground/80">Ask about your symptoms</p>
-          </div>
+          <button
+            onClick={() => setIsOpen(false)}
+            className="h-10 w-10 rounded-full bg-slate-700 hover:bg-slate-600 flex items-center justify-center transition-colors"
+          >
+            <X className="h-5 w-5 text-slate-300" />
+          </button>
         </div>
 
         {/* Messages */}
-        <ScrollArea className="flex-1 p-4" ref={scrollRef}>
-          <div className="space-y-4">
+        <ScrollArea className="flex-1 p-6" ref={scrollRef}>
+          <div className="max-w-4xl mx-auto space-y-6">
             {messages.map((message, index) => (
               <div
                 key={index}
                 className={cn(
-                  "flex gap-2",
+                  "flex gap-4",
                   message.role === "user" ? "justify-end" : "justify-start"
                 )}
               >
                 {message.role === "assistant" && (
-                  <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Bot className="h-4 w-4 text-primary" />
+                  <div className="h-10 w-10 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                    <Bot className="h-5 w-5 text-emerald-400" />
                   </div>
                 )}
                 <div
                   className={cn(
-                    "max-w-[80%] rounded-2xl px-4 py-2 text-sm",
+                    "max-w-[75%] rounded-2xl px-5 py-3 text-base",
                     message.role === "user"
-                      ? "bg-primary text-primary-foreground rounded-br-md"
-                      : "bg-muted text-foreground rounded-bl-md"
+                      ? "bg-emerald-600 text-white rounded-br-md"
+                      : "bg-slate-800 text-slate-100 rounded-bl-md"
                   )}
                 >
-                  <p className="whitespace-pre-wrap">{message.content}</p>
+                  <p className="whitespace-pre-wrap leading-relaxed">{message.content}</p>
                 </div>
                 {message.role === "user" && (
-                  <div className="h-8 w-8 rounded-full bg-secondary flex items-center justify-center flex-shrink-0">
-                    <User className="h-4 w-4 text-secondary-foreground" />
+                  <div className="h-10 w-10 rounded-full bg-slate-700 flex items-center justify-center flex-shrink-0">
+                    <User className="h-5 w-5 text-slate-300" />
                   </div>
                 )}
               </div>
             ))}
             {isLoading && messages[messages.length - 1]?.role === "user" && (
-              <div className="flex gap-2 justify-start">
-                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Bot className="h-4 w-4 text-primary" />
+              <div className="flex gap-4 justify-start">
+                <div className="h-10 w-10 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                  <Bot className="h-5 w-5 text-emerald-400" />
                 </div>
-                <div className="bg-muted rounded-2xl rounded-bl-md px-4 py-2">
-                  <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                <div className="bg-slate-800 rounded-2xl rounded-bl-md px-5 py-3">
+                  <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
                 </div>
               </div>
             )}
@@ -208,28 +212,30 @@ export default function AIChatbot() {
         </ScrollArea>
 
         {/* Input */}
-        <div className="p-4 border-t border-border bg-background">
-          <div className="flex gap-2">
-            <Input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyPress}
-              placeholder="Describe your symptoms..."
-              disabled={isLoading}
-              className="flex-1"
-            />
-            <Button
-              onClick={handleSend}
-              disabled={!input.trim() || isLoading}
-              size="icon"
-              className="bg-primary hover:bg-primary/90"
-            >
-              <Send className="h-4 w-4" />
-            </Button>
+        <div className="p-6 border-t border-slate-700 bg-slate-800">
+          <div className="max-w-4xl mx-auto">
+            <div className="flex gap-3">
+              <Input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyPress}
+                placeholder="Describe your symptoms..."
+                disabled={isLoading}
+                className="flex-1 bg-slate-700 border-slate-600 text-white placeholder:text-slate-400 h-12 text-base focus:ring-emerald-500 focus:border-emerald-500"
+              />
+              <Button
+                onClick={handleSend}
+                disabled={!input.trim() || isLoading}
+                size="lg"
+                className="bg-emerald-600 hover:bg-emerald-500 text-white h-12 px-6"
+              >
+                <Send className="h-5 w-5" />
+              </Button>
+            </div>
+            <p className="text-sm text-slate-500 mt-3 text-center">
+              Not a substitute for professional medical advice
+            </p>
           </div>
-          <p className="text-xs text-muted-foreground mt-2 text-center">
-            Not a substitute for professional medical advice
-          </p>
         </div>
       </div>
     </>
